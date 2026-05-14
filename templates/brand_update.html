@@ -1,0 +1,19 @@
+{% extends 'components/base.html' %}
+{% load static %}
+{% block title %} Axion | Brand Update {% endblock %}
+
+{% block body %}
+
+
+<h1 class="text-center">Brand update</h1>
+<a href="/car/list/" class="btn btn-success">Go Back To Car list Page</a>
+<form class="mt-5" method="POST" action="/brand/update/{{brand.id}}/" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div class="mb-3">
+        <label for="brandname" class="form-label">Brand</label>
+        <input type="text" name="name" value="{{brand.name}}" class="form-control" id="carname" placeholder="enter your brand ">
+    </div>
+    <button type="submit" class="btn">Update</button>
+
+</form>
+{% endblock %}

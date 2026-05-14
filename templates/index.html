@@ -1,0 +1,955 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+  <link href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+  <link rel="icon" href="{% static 'favicon.ico' %}">
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+  <title>Web Design Mastery | Car Rental</title>
+
+
+  <style>
+    html {
+      scroll-behavior: smooth;
+    }
+
+    .logout {
+      background: purple;
+      color: white;
+      padding: 8px 12px;
+      border-radius: 6px;
+      text-decoration: none;
+    }
+
+    .card {
+      position: relative;
+    }
+
+    .wishlist-btn {
+      position: absolute;
+
+      top: 12px;
+      right: 12px;
+
+      width: 40px;
+      height: 40px;
+
+      background: white;
+
+      border-radius: 50%;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      text-decoration: none;
+
+      font-size: 22px;
+
+      color: red;
+
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+
+      z-index: 10;
+
+      transition: 0.3s;
+    }
+
+    .wishlist-btn:hover {
+      transform: scale(1.1);
+    }
+
+    #cars-section .card {
+      border: none;
+      border-radius: 18px;
+      overflow: hidden;
+      padding: 12px;
+      transition: 0.3s ease;
+      background: #fff;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+      cursor: pointer;
+      height: 100%;
+    }
+
+
+    #cars-section .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+    }
+
+
+    #cars-section .card-img-top {
+      width: 100%;
+      height: 220px;
+      object-fit: contain;
+      padding: 10px;
+    }
+
+    #cars-section .card-body {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    #cars-section .card-title {
+      font-size: 28px;
+      font-weight: 700;
+      margin-bottom: 14px;
+    }
+
+    #cars-section .card-body p {
+      font-size: 20px;
+      margin-bottom: 8px;
+      color: #333;
+    }
+
+    #cars-section .btn {
+      background: #8b6df6;
+      color: white;
+      border-radius: 10px;
+      padding: 10px 16px;
+      font-size: 15px;
+      font-weight: 600;
+      border: none;
+      transition: 0.3s;
+    }
+
+    #cars-section .btn:hover {
+      background: #6f4ef2;
+      color: white;
+    }
+
+    #cars-section form {
+      margin-top: auto;
+    }
+
+    #cars-section form .btn {
+      width: 48%;
+    }
+
+
+    #cars-section .form-select {
+      border-radius: 10px;
+      padding: 10px;
+    }
+
+    footer {
+      padding: 1rem 1rem;
+      background: linear-gradient(150deg, #68705C, #6767A4);
+      padding-left: 40rem;
+      text-decoration: underline;
+      color: white;
+    }
+
+    .review-section {
+      background: #ece9ff;
+
+      padding: 100px 10%;
+
+      margin-top: 80px;
+    }
+
+    .review-left h1 {
+      font-size: 60px;
+
+      font-weight: bold;
+
+      line-height: 1.2;
+
+      margin-bottom: 20px;
+    }
+
+    .review-left p {
+      color: #555;
+
+      width: 60%;
+
+      line-height: 1.8;
+
+      margin-bottom: 30px;
+    }
+
+    .review-left textarea {
+      width: 100%;
+
+      max-width: 700px;
+
+      height: 180px;
+
+      border: none;
+
+      outline: none;
+
+      border-radius: 16px;
+
+      padding: 20px;
+
+      font-size: 16px;
+
+      resize: none;
+
+      margin-bottom: 20px;
+    }
+
+    .review-left button,
+    .review-login-btn {
+      background: linear-gradient(to right, purple, violet);
+
+      color: white;
+
+      border: none;
+
+      padding: 14px 30px;
+
+      border-radius: 10px;
+
+      text-decoration: none;
+
+      cursor: pointer;
+
+      font-size: 16px;
+    }
+
+
+    .navbar-brand img,
+    .logo img {
+      width: 180px;
+
+      height: auto;
+      object-fit: contain;
+    }
+
+
+    @media (min-width: 992px) {
+
+      .navbar-brand img,
+      .logo img {
+        width: 230px;
+      }
+    }
+
+
+    @media (max-width: 576px) {
+
+      .navbar-brand img,
+      .logo img {
+        width: 140px;
+      }
+    }
+
+    /* ROBOT VERIFY */
+
+    #robotOverlay {
+      position: fixed;
+
+      inset: 0;
+
+      width: 100%;
+      height: 100vh;
+
+      background: #111;
+
+      z-index: 999999;
+
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      overflow: hidden;
+    }
+
+    .robot-card {
+      width: 340px;
+
+      text-align: center;
+
+      color: white;
+    }
+
+    .robot-card h2 {
+      margin-bottom: 30px;
+      font-size: 32px;
+      font-weight: 700;
+    }
+
+    .robot-animation {
+      width: 170px;
+      height: 170px;
+
+      margin: auto;
+
+      border: 4px solid #2affaa;
+
+      border-radius: 20px;
+
+      position: relative;
+
+      overflow: hidden;
+
+      margin-bottom: 25px;
+
+      box-shadow: 0 0 20px rgba(0, 255, 170, 0.4);
+    }
+
+    .scan-line {
+      position: absolute;
+
+      width: 6px;
+      height: 100%;
+
+      background: #00aaff;
+
+      left: 0;
+
+      animation: scan 2s linear infinite;
+    }
+
+    @keyframes scan {
+
+      0% {
+        left: 0;
+      }
+
+      100% {
+        left: 100%;
+      }
+    }
+
+    /* robot */
+    .robot-card {
+      background: white;
+      padding: 35px;
+      border-radius: 20px;
+
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+
+      text-align: center;
+
+      width: 350px;
+    }
+
+    .robot-card h2 {
+      color: #111;
+      margin-bottom: 10px;
+    }
+
+    .robot-card p {
+      margin-bottom: 20px;
+      color: #666;
+    }
+
+    .hold-container {
+      width: 100%;
+      height: 58px;
+
+      background: #f3f4f6;
+
+      border-radius: 40px;
+
+      position: relative;
+
+      overflow: hidden;
+
+      cursor: pointer;
+
+      user-select: none;
+
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      border: 1px solid #ddd;
+    }
+
+    .hold-progress {
+      position: absolute;
+
+      left: 0;
+      top: 0;
+
+      width: 0%;
+
+      height: 100%;
+
+      background: linear-gradient(45deg, #7c3aed, #c084fc);
+
+      transition: width 0.05s linear;
+    }
+
+    .hold-container span {
+      position: relative;
+      z-index: 2;
+
+      font-weight: 600;
+
+      color: #111;
+    }
+    #robotOverlay {
+    position: fixed;
+
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    height: 100vh;
+
+    background: #f5f7f6;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    z-index: 999999;
+}
+
+  </style>
+</head>
+
+<body>
+
+  <!-- ROBOT OVERLAY -->
+  <div id="robotOverlay">
+
+    <div class="robot-card">
+
+      <h2>Let's prove you're human</h2>
+
+      <div class="robot-animation">
+
+        <div class="scan-line"></div>
+
+      </div>
+
+      <p>Press and hold the button.</p>
+
+      <div class="hold-container">
+
+        <div class="hold-progress" id="holdProgress"></div>
+
+        <span id="holdText">
+          Press and hold
+        </span>
+
+      </div>
+
+    </div>
+
+  </div>
+  <!-- ======================================================== -->
+  <header>
+    {% if messages %}
+
+    <div class="toast-container">
+
+      {% for message in messages %}
+
+      <div class="custom-toast {{ message.tags }}">
+
+        <div class="toast-left">
+
+          <span class="toast-icon">
+            ✓
+          </span>
+
+          <span>
+            {{ message }}
+          </span>
+
+        </div>
+
+        <button class="toast-close">
+          ×
+        </button>
+
+      </div>
+
+      {% endfor %}
+
+    </div>
+
+    {% endif %}
+    <nav>
+
+      <a class="navbar-brand" href="/">
+        <img src="{% static 'assets/logo.jpg' %}" alt="Axion Logo">
+      </a>
+
+      <div class="nav__menu__btn" id="menu-btn">
+        <i class="ri-menu-line"></i>
+      </div>
+      </div>
+      <ul class="nav__links" id="nav-links">
+        <li><a href="#about">About</a></li>
+        <li><a href="#deals">Rental Deals</a></li>
+        {% if request.user.is_authenticated and request.user.is_staff %}
+        <a href="/car/list/">Car List</a>
+        {% endif %}
+        <li><a href=""></a></li>
+        {% if request.user.is_authenticated %}
+
+        {% if request.user.is_staff %}
+        <a href="/admin-dashboard/">Admin Dashboard</a>
+        {% else %}
+        <a href="/booking/history/">My Bookings</a>
+        {% endif %}
+
+
+        {% if not request.user.is_staff %}
+
+        <a href="{% url 'wishlist' %}" class="wishlist-nav">
+
+          <i class="ri-heart-3-line"></i>
+
+          <span id="wishlist-count">
+            {{ request.user.wishlistmodel_set.all.count }}
+          </span>
+
+        </a>
+
+        {% endif %}
+
+
+        <a href="{% url 'reviews' %}">
+          Reviews
+        </a>
+        <form action="/logout/" method="POST" style="display:inline;">
+          {% csrf_token %}
+          <button class="logout" type="submit">Logout</button>
+        </form>
+
+        {% else %}
+        <a href="/login/" class="btn">Login</a>
+        <a href="/register/" class="btn">Register</a>
+        {% endif %}
+      </ul>
+
+    </nav>
+    <div class="header__container" id="home">
+      <div class="header__image">
+        <img src="{% static 'assets/header.png' %} " alt="header" />
+      </div>
+      <div class="header__content">
+        <h2>100% Trusted car rental platform in Myanmar</h2>
+        <h1>FAST AND EASY WAY TO RENT A CAR</h1>
+        <p class="section__description">
+          Discover a seamless car rental experience with us. Choose from a
+          range of premium vehicles to suit your style and needs, and hit the
+          road with confidence. Quick, easy, and reliable - rent your ride
+          today!
+        </p>
+      </div>
+    </div>
+  </header>
+
+
+  <section class="section__container about__container" id="about">
+    <h2 class="section__header">How it work</h2>
+    <p class="section__description">
+      Renting a car with us is simple! Choose your vehicle, pick your dates,
+      and complete your booking. We'll handle the rest, ensuring a smooth
+      start to your journey.
+    </p>
+    <div class="about__grid">
+      <div class="about__card">
+        <span><i class="ri-map-pin-2-fill"></i></span>
+        <h4>Choose Location</h4>
+        <p>
+          Select from a variety of pick-up locations that best suit your
+          needs, whether it's close to home, work, or airport.
+        </p>
+      </div>
+      <div class="about__card">
+        <span><i class="ri-calendar-event-fill"></i></span>
+        <h4>Pick-up Date</h4>
+        <p>
+          Choose the exact date and time for your car pick-up, ensuring that
+          your vehicle is ready when you need it.
+        </p>
+      </div>
+      <div class="about__card">
+        <span><i class="ri-roadster-fill"></i></span>
+        <h4>Book your Car</h4>
+        <p>
+          Complete your booking with just a few clicks, and we'll prepare your
+          vehicle to ensure a hassle-free pick-up.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="deals" id="deals">
+    <div class="section__container deals__container">
+      <h2 class="section__header">Most popular car rental deals</h2>
+      <p class="section__description">
+        Explore our top car rental deals, handpicked to give you the best
+        value and experience. Book now and drive your favorite ride at an
+        incredible rate!
+      </p>
+
+
+
+      <!-- ===========================================//****===================================== -->
+
+
+      <div class="d-flex gap-2 justify-content-center">
+        {% for brand in brands %}
+        <a href="#" class="brand-link btn {% if brand == selected_brand %}{% else %}{% endif %}"
+          data-id="{{ brand.id }}">
+          {{ brand.name }}
+        </a>
+        {% endfor %}
+      </div>
+
+
+      <div id="cars-section">
+        <div class="container mt-4">
+          <div class="row">
+
+            {% for car in cars %}
+            <div class="col-12 col-md-6 col-lg-4 mt-4">
+              <div class="card h-100">
+
+                {% if car.image %}
+                <img src="{{car.image.url}}" class="card-img-top" alt="{{car.car_name}}">
+                {% endif %}
+
+                <div class="card-body ">
+
+
+                  <h5 class="card-title">Name - {{car.car_name}}</h5>
+                  {% if not request.user.is_staff %}
+                  <a href="{% url 'add_wishlist' car.id %}" class="wishlist-btn">
+                    <i class="ri-heart-3-line"></i>
+                  </a>
+                  {% endif %}
+
+                  <p>Seats - {{car.seats}} People</p>
+                  <p>Transmission - {{car.transmission}}</p>
+                  <p>Type - {{car.fuel_type}}</p>
+                  <p>Max speed - {{car.max_speed}} km/h</p>
+                  <p>Price Per Day - ${{car.price_per_day}}</p>
+
+                  <form action="/compare/" method="GET" class="mt-2">
+
+                    <input type="hidden" name="car1" value="{{ car.id }}">
+
+                    <select name="car2" class="form-select mb-2" required>
+                      {% for c in cars %}
+                      <option value="{{ c.id }}">
+                        {{ c.car_name }}
+                      </option>
+                      {% endfor %}
+                    </select>
+
+                    <button type="submit" class="btn">
+                      Compare Now
+                    </button>
+
+                    <a href="{% url 'book_car' car.id %}" class="btn">
+                      Rent Now →
+                    </a>
+                  </form>
+
+
+
+                </div>
+
+              </div>
+            </div>
+            {% endfor %}
+
+          </div>
+        </div>
+      </div>
+      <!-- ===========================================//===================================== -->
+
+
+
+    </div>
+
+  </section>
+
+  <section class="choose__container" id="choose">
+    <div class="choose__image">
+      <img src="{% static 'assets/choose.png' %}" alt="choose" />
+    </div>
+    <div class="choose__content">
+      <h2 class="section__header">Why choose us</h2>
+      <p class="section__description">
+        Discover the difference with our car rental service. We offer reliable
+        vehicles, exceptional customer service, and competitive pricing to
+        ensure a seamless rental experience.
+      </p>
+      <div class="choose__grid">
+        <div class="choose__card">
+          <span><i class="ri-customer-service-line"></i></span>
+          <div>
+            <h4>Customer Support</h4>
+            <p>Our dedicated support team is available to assist you 24/7.</p>
+          </div>
+        </div>
+        <div class="choose__card">
+          <span><i class="ri-map-pin-line"></i></span>
+          <div>
+            <h4>Many Locations</h4>
+            <p>
+              Convenient pick-up and drop-off locations to suit your travel
+              needs.
+            </p>
+          </div>
+        </div>
+        <div class="choose__card">
+          <span><i class="ri-wallet-line"></i></span>
+          <div>
+            <h4>Best Price</h4>
+            <p>Enjoy competitive rates and great value for every rental.</p>
+          </div>
+        </div>
+        <div class="choose__card">
+          <span><i class="ri-user-star-line"></i></span>
+          <div>
+            <h4>Experience Driver</h4>
+            <p>Reliable, professional drivers available upon request.</p>
+          </div>
+        </div>
+        <div class="choose__card">
+          <span><i class="ri-verified-badge-line"></i></span>
+          <div>
+            <h4>Verified Brands</h4>
+            <p>Choose from trusted and well-maintained car brands.</p>
+          </div>
+        </div>
+        <div class="choose__card">
+          <span><i class="ri-calendar-close-line"></i></span>
+          <div>
+            <h4>Free Cancellations</h4>
+            <p>Flexible bookings with free cancellation options.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="review-section">
+
+    <div class="review-left">
+
+      <h1>
+        Share your experience with us
+      </h1>
+
+      <p>
+        Your feedback helps us improve our car rental service
+        and gives confidence to other customers.
+      </p>
+
+      {% if request.user.is_authenticated %}
+
+      <form action="{% url 'add_review' %}" method="POST">
+
+        {% csrf_token %}
+
+        <textarea name="message" placeholder="Write your review..." required></textarea><br>
+
+        <button type="submit">
+          Submit Review
+        </button>
+
+      </form>
+
+
+      {% else %}
+
+      <a href="/login/" class="review-login-btn">
+        Login to write review
+      </a>
+
+      {% endif %}
+
+    </div>
+
+  </section>
+
+
+
+
+
+
+  <footer class="footer">
+
+
+
+    <div class="footer-bottom">
+
+      © 2026 Axion Car Rental. All rights reserved.
+
+    </div>
+
+  </footer>
+  <!-- ===========================================//*****===================================== -->
+  <script>
+    document.querySelectorAll(".brand-link").forEach(link => {
+      link.addEventListener("click", function (e) {
+        e.preventDefault(); // ❗ stops page reload
+
+        const brandId = this.dataset.id;
+
+        fetch(`/?brand=${brandId}`)
+          .then(res => res.text())
+          .then(html => {
+            // Replace only part of page (BEST)
+            const parser = new DOMParser();
+            const newDoc = parser.parseFromString(html, "text/html");
+
+            const newCars = newDoc.querySelector("#cars-section");
+            document.querySelector("#cars-section").innerHTML = newCars.innerHTML;
+
+            // update URL without reload
+            window.history.pushState({}, '', `/?brand=${brandId}`);
+          });
+      });
+    });
+  </script>
+
+  <script>
+
+    document.querySelectorAll(".toast-close").forEach(btn => {
+
+      btn.addEventListener("click", function () {
+
+        this.parentElement.remove()
+
+      })
+
+    })
+
+    setTimeout(() => {
+
+      document.querySelectorAll(".custom-toast").forEach(toast => {
+
+        toast.remove()
+
+      })
+
+    }, 3000)
+
+  </script>
+  <!-- ===========================================//===================================== -->
+  <script src="https://unpkg.com/scrollreveal"></script>
+  <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+  <script src="{% static 'js/main.js' %}"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+    crossorigin="anonymous"></script>
+
+  <!-- for robot check  -->
+  <script>
+
+    const holdBox = document.querySelector(".hold-container")
+
+    const progress = document.getElementById("holdProgress")
+
+    const overlay = document.getElementById("robotOverlay")
+
+    const text = document.getElementById("holdText")
+
+    let width = 0
+
+    let timer
+
+    let verified = false
+
+
+    /* CHECK SESSION */
+
+    if (sessionStorage.getItem("human_verified") === "true") {
+
+      overlay.style.display = "none"
+
+    }
+
+
+    /* START HOLD */
+
+    function startHold() {
+
+      if (verified) return
+
+      timer = setInterval(() => {
+
+        width += 2
+
+        progress.style.width = width + "%"
+
+        if (width >= 100) {
+
+          clearInterval(timer)
+
+          verified = true
+
+          text.innerText = "Verified ✓"
+
+
+          /* SAVE ONLY FOR CURRENT SESSION */
+
+          sessionStorage.setItem("human_verified", "true")
+
+
+          setTimeout(() => {
+
+            overlay.style.opacity = "0"
+
+            overlay.style.transition = "0.5s"
+
+            setTimeout(() => {
+
+              overlay.style.display = "none"
+
+            }, 500)
+
+          }, 500)
+
+        }
+
+      }, 40)
+
+    }
+
+
+    /* STOP HOLD */
+
+    function stopHold() {
+
+      if (verified) return
+
+      clearInterval(timer)
+
+      width = 0
+
+      progress.style.width = "0%"
+
+    }
+
+
+    /* EVENTS */
+
+    holdBox.addEventListener("mousedown", startHold)
+
+    holdBox.addEventListener("mouseup", stopHold)
+
+    holdBox.addEventListener("mouseleave", stopHold)
+
+    holdBox.addEventListener("touchstart", startHold)
+
+    holdBox.addEventListener("touchend", stopHold)
+
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,85 @@
+{% load static %}
+<style>
+    .logout {
+        background: purple;
+        color: white;
+        padding: 8px 12px;
+        border-radius: 6px;
+        text-decoration: none;
+    }
+ .navbar-brand img,
+    .logo img {
+      width: 180px;
+      
+      height: auto;
+      object-fit: contain;
+    }
+
+    
+    @media (min-width: 992px) {
+
+      .navbar-brand img,
+      .logo img {
+        width: 230px;
+      }
+    }
+
+    
+    @media (max-width: 576px) {
+
+      .navbar-brand img,
+      .logo img {
+        width: 140px;
+      }
+    }
+    
+</style>
+<nav>
+    
+            <a class="navbar-brand" href="/">
+                <img src="{% static 'assets/logo1.jpg' %}" alt="Axion Logo">
+            </a>
+       
+            <ul class="nav__links" id="nav-links">
+       
+        {% if request.user.is_authenticated and request.user.is_staff %}
+        <a href="/car/list/">Car List</a>
+        {% endif %}
+        <li><a href=""></a></li>
+        {% if request.user.is_authenticated %}
+
+        {% if request.user.is_staff %}
+        <a href="/admin-dashboard/">Admin Dashboard</a>
+        {% else %}
+        <a href="/booking/history/">My Bookings</a>
+        {% endif %}
+
+
+        {% if not request.user.is_staff %}
+
+        <a href="{% url 'wishlist' %}" class="wishlist-nav">
+
+            <i class="ri-heart-3-line"></i>
+
+            <span id="wishlist-count">
+                {{ request.user.wishlistmodel_set.all.count }}
+            </span>
+
+        </a>
+
+        {% endif %}
+
+
+
+        <form action="/logout/" method="POST" style="display:inline;">
+            {% csrf_token %}
+            <button class="logout" type="submit">Logout</button>
+        </form>
+
+        {% else %}
+        <a href="/login/" class="btn">Login</a>
+        <a href="/register/" class="btn">Register</a>
+        {% endif %}
+    </ul>
+
+</nav>

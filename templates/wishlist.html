@@ -1,0 +1,76 @@
+{% extends 'components/base.html' %}
+{% load static %}
+{% block body %}
+<style>
+    .wishlist-nav{
+    position: relative;
+    text-decoration: none;
+    font-size: 22px;
+}
+
+.wishlist-count{
+    position: absolute;
+    top: -8px;
+    right: -10px;
+
+    background: red;
+    color: white;
+
+    width: 18px;
+    height: 18px;
+
+    border-radius: 50%;
+
+    font-size: 11px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+</style>
+
+<div class="container mt-5">
+
+    <h2 class="mb-4">My Wishlist ❤️</h2>
+
+    <div class="row">
+
+        {% for item in wishlist %}
+
+        <div class="col-md-4 mb-4">
+
+            <div class="card h-100">
+
+                <img src="{{ item.car.image.url }}" class="card-img-top" style="height:220px; object-fit:cover;">
+
+                <div class="card-body">
+
+                    <h4>{{ item.car.car_name }}</h4>
+
+                    <p>Seats - {{ item.car.seats }}</p>
+
+                    <p>
+                        ${{ item.car.price_per_day }}/day
+                    </p>
+
+                    <a href="/booking/{{ item.car.id }}/" class="btn btn-primary">
+                        Rent Now
+                    </a>
+
+                    <a href="{% url 'remove_wishlist' item.car.id %}" class="btn btn-danger">
+                        Remove
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        {% endfor %}
+
+    </div>
+
+</div>
+
+{% endblock %}

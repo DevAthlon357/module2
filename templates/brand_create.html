@@ -1,0 +1,20 @@
+{% extends 'components/base.html' %}
+{% load static %}
+{% block title %} Axion | Brand Create {% endblock %}
+
+{% block body %}
+
+
+
+<h1 class="text-center">Brand Create</h1>
+<a href="/car/list/" class="btn btn-success">Go Back To Car list Page</a>
+<form class="mt-5" method="POST" action="/brand/create/" enctype="multipart/form-data">
+    {% csrf_token %}
+<div class="mb-3">
+    <label for="brandname" class="form-label">Brand</label>
+    <input type="text" name="name" class="form-control" id="carname" placeholder="enter your brand ">
+</div>
+<button type="submit" class="btn">Create</button>
+
+</form>
+{% endblock %}

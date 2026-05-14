@@ -1,0 +1,66 @@
+{% extends 'components/base.html' %}
+{% load static %}
+{% block title %}Axion | Car List {% endblock %}
+
+{% block body %}
+
+<h1 class="text-center mt-5">Brand List</h1>
+
+<a href="/brand/create/" class="btn btn-success">+ Add New Brand</a>
+
+<table class="table mt-5">
+    <thead>
+        <tr>
+            <th>No</th>
+            <th>Brand</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for brand in brands %}
+        <tr>
+            <td>{{forloop.counter}}</td>
+            <td>{{brand.name}}</td>
+
+
+            <td>
+                <a href="/brand/update/{{brand.id}}/" class="btn btn-warning">Update</a>
+                <a href="/brand/delete/{{brand.id}}/" class="btn btn-danger">Delete</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+
+<h1 class="text-center mt-5">Car List</h1>
+
+<a href="/car/create/" class="btn btn-success">+ Add New Car</a>
+
+<table class="table mt-5">
+    <thead>
+        <tr>
+            <th scope="col">No</th>
+            <th scope="col">Title</th>
+            <th scope="col">Brand</th>
+            <th scope="col">Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for car in cars %}
+        <tr>
+            <th scope="row">{{forloop.counter}}</th>
+            <td>{{car.car_name}}</td>
+            <td>{{car.car_brand.name}}</td>
+
+            <td>
+                <a href="/car/update/{{car.id}}/" class="btn">Update</a>
+                <a href="/car/delete/{{car.id}}/" class="btn">Delete</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+
+{% endblock %}

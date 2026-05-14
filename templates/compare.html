@@ -1,0 +1,196 @@
+{% extends 'components/base.html' %}
+{% load static %}
+
+{% block title %}Compare Cars{% endblock %}
+
+{% block body %}
+
+<style>
+    body {
+        background: #f5f7f6;
+        font-family: Arial;
+    }
+
+    .compare-container {
+        width: 90%;
+        margin: 40px auto;
+    }
+
+    h1 {
+        text-align: center;
+        margin-bottom: 30px;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        background: white;
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+    }
+
+    th,
+    td {
+        padding: 20px;
+        text-align: center;
+        border-bottom: 1px solid #eee;
+    }
+
+    th {
+        background: #f3f3f3;
+        font-size: 18px;
+    }
+
+    .car-image {
+        width: 220px;
+        height: 140px;
+        object-fit: cover;
+        border-radius: 10px;
+    }
+
+    .better {
+        background: #d4edda;
+        color: #155724;
+        padding: 5px 10px;
+        border-radius: 6px;
+        font-size: 12px;
+        font-weight: bold;
+    }
+
+    .title {
+        font-size: 24px;
+        font-weight: bold;
+    }
+
+    .rent-btn {
+        background: linear-gradient(to right, purple, violet);
+        color: white;
+        padding: 10px 20px;
+        border-radius: 8px;
+        text-decoration: none;
+        display: inline-block;
+    }
+</style>
+
+<div class="compare-container">
+
+    <h1>Compare Cars</h1>
+
+    <table>
+
+        <tr>
+            <th>Feature</th>
+            <th>{{ car1.car_name }}</th>
+            <th>{{ car2.car_name }}</th>
+        </tr>
+
+
+        <tr>
+            <td class="title">Image</td>
+
+            <td>
+                <img src="{{ car1.image.url }}" class="car-image">
+            </td>
+
+            <td>
+                <img src="{{ car2.image.url }}" class="car-image">
+            </td>
+        </tr>
+
+
+        <tr>
+            <td class="title">Price Per Day</td>
+
+            <td>
+                ${{ car1.price_per_day }}
+
+                {% if car1.price_per_day < car2.price_per_day %} <div class="better">Cheaper
+
+                    {% endif %}
+            </td>
+
+            <td>
+                ${{ car2.price_per_day }}
+
+                {% if car2.price_per_day < car1.price_per_day %} <div class="better">Cheaper
+                    {% endif %}
+
+            </td>
+        </tr>
+</div>
+<tr>
+    <td class="title">Transmission</td>
+
+    <td>{{ car1.transmission }}</td>
+    <td>{{ car2.transmission }}</td>
+</tr>
+
+<tr>
+    <td class="title">Fuel Type</td>
+
+    <td>{{ car1.fuel_type }}</td>
+    <td>{{ car2.fuel_type }}</td>
+</tr>
+
+<tr>
+    <td class="title">Max Speed</td>
+
+    <td>
+        {{ car1.max_speed }} km/h
+
+        {% if car1.max_speed > car2.max_speed %}
+        <div class="better">Faster</div>
+        {% endif %}
+    </td>
+
+    <td>
+        {{ car2.max_speed }} km/h
+
+        {% if car2.max_speed > car1.max_speed %}
+        <div class="better">Faster</div>
+        {% endif %}
+    </td>
+</tr>
+
+<tr>
+    <td class="title">Seats</td>
+
+    <td>
+        {{ car1.seat }}
+
+        {% if car1.seat > car2.seat %}
+        <div class="better">More Seats</div>
+        {% endif %}
+    </td>
+
+    <td>
+        {{ car2.seat }}
+
+        {% if car2.seat > car1.seat %}
+        <div class="better">More Seats</div>
+        {% endif %}
+    </td>
+</tr>
+
+<tr>
+    <td class="title">Action</td>
+
+    <td>
+        <a href="/booking/{{ car1.id }}/" class="rent-btn">
+            Rent Now
+        </a>
+    </td>
+
+    <td>
+        <a href="/booking/{{ car2.id }}/" class="rent-btn">
+            Rent Now
+        </a>
+    </td>
+</tr>
+
+</table>
+
+</div>
+
+{% endblock %}

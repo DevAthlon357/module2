@@ -1,0 +1,194 @@
+{% extends 'components/base.html' %}
+{% load static %}
+{% block title %}Axion | Booking {% endblock %}
+
+{% block body %}
+    <style>
+        
+
+        .container {
+            max-width: 500px;
+            margin: auto;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .box {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        label {
+            font-weight: bold;
+        }
+
+        input,
+        select {
+            width: 100%;
+            padding: 10px;
+            /* smaller */
+            border-radius: 6px;
+            /* less round */
+            border: 1px solid #ccc;
+            font-size: 14px;
+        }
+
+        .btn {
+            background: linear-gradient(to right, #6a5acd, #7b68ee);
+            color: white;
+            padding: 14px;
+            border: none;
+            border-radius: 10px;
+            width: 100%;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .price-box {
+            font-size: 18px;
+            font-weight: bold;
+            color: green;
+        }
+
+        .error {
+            color: red;
+            margin-bottom: 10px;
+        }
+
+        iframe {
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+    </style>
+
+    <div class="container">
+
+        <h2>Book {{ car.car_name }}</h2>
+
+        <form method="POST">
+            {% csrf_token %}
+
+            {% if error %}
+            <p class="error">{{ error }}</p>
+            {% endif %}
+
+            <!-- location -->
+            <div class="box">
+                <label>Pickup and Return Location</label>
+                <select id="location" name="location" required>
+                    <option value="">Select location</option>
+                    {% for loc in locations %}
+                    <option value="{{ loc.id }}" data-lat="{{ loc.latitude }}" data-lng="{{ loc.longitude }}"
+                        data-price="{{ loc.extra_price }}">
+                        {{ loc.name }}
+                    </option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <!-- pickup date -->
+            <div class="box">
+                <label>Pickup Date</label>
+                <input type="date" id="pickup_date" name="pickup_date" required>
+
+                <label>Pickup Time</label>
+                <input type="time" id="pickup_time" name="pickup_time" required>
+            </div>
+
+            <!-- return date -->
+            <div class="box">
+                <label>Return Date</label>
+                <input type="date" id="return_date" name="return_date" required>
+
+                <label>Return Time</label>
+                <input type="time" id="return_time" name="return_time" required>
+            </div>
+
+            <!-- price -->
+            <div class="box">
+                <p>Price per day: ${{ car.price_per_day }}</p>
+                <div class="price-box">
+                    Total Price: $<span id="total_price">0</span>
+                </div>
+            </div>
+
+            <button type="submit" class="btn">Confirm Booking</button>
+
+            <!-- map -->
+            <iframe id="mapFrame" width="100%" height="300" src="https://www.google.com/maps?q=0,0&output=embed">
+            </iframe>
+
+        </form>
+
+    </div>
+
+    <script>
+        const pricePerDay = Number("{{ car.price_per_day }}");
+
+        const locationSelect = document.getElementById("location");
+        const pickupDate = document.getElementById("pickup_date");
+        const pickupTime = document.getElementById("pickup_time");
+        const returnDate = document.getElementById("return_date");
+        const returnTime = document.getElementById("return_time");
+
+        const totalPriceEl = document.getElementById("total_price");
+        const mapFrame = document.getElementById("mapFrame");
+
+
+        
+        locationSelect.addEventListener("change", function () {
+            const selected = this.options[this.selectedIndex];
+
+            const lat = selected.getAttribute("data-lat");
+            const lng = selected.getAttribute("data-lng");
+
+            if (lat && lng) {
+                mapFrame.src = `https://www.google.com/maps?q=${lat},${lng}&output=embed`;
+            }
+
+            calculatePrice();
+        });
+
+
+        
+        function calculatePrice() {
+            if (!pickupDate.value || !pickupTime.value || !returnDate.value || !returnTime.value) return;
+
+            const start = new Date(`${pickupDate.value}T${pickupTime.value}`);
+            const end = new Date(`${returnDate.value}T${returnTime.value}`);
+
+            let diff = (end - start) / (1000 * 60 * 60 * 24);
+            let days = Math.ceil(diff);
+
+            if (days <= 0) return;
+
+            let total = days * pricePerDay;
+
+            let extra = locationSelect.options[locationSelect.selectedIndex]?.dataset.price || 0;
+
+            total += Number(extra);
+
+            totalPriceEl.innerText = total.toFixed(2);
+        }
+
+        //to disable past date
+        const today = new Date().toISOString().split("T")[0];
+
+        document.getElementById("pickup_date").setAttribute("min", today);
+        document.getElementById("return_date").setAttribute("min", today);
+       
+        pickupDate.addEventListener("change", calculatePrice);
+        pickupTime.addEventListener("change", calculatePrice);
+        returnDate.addEventListener("change", calculatePrice);
+        returnTime.addEventListener("change", calculatePrice);
+    </script>
+
+{% endblock %}

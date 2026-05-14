@@ -1,0 +1,91 @@
+{% extends 'components/base.html' %}
+{% block title %}Review{% endblock %}
+{% load static %}
+{% block body %}
+
+<style>
+    .review-page {
+        width: 90%;
+        margin: 50px auto;
+    }
+
+    .review-title {
+        text-align: center;
+        margin-bottom: 50px;
+    }
+
+    .review-grid {
+        display: grid;
+
+        grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+
+        gap: 25px;
+    }
+
+    .review-card {
+        background: white;
+
+        padding: 25px;
+
+        border-radius: 18px;
+
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+    }
+
+    .review-user {
+        font-size: 20px;
+
+        font-weight: bold;
+
+        margin-bottom: 15px;
+    }
+
+    .review-message {
+        color: #555;
+
+        line-height: 1.8;
+
+        margin-bottom: 20px;
+    }
+
+    .review-date {
+        color: gray;
+
+        font-size: 14px;
+    }
+</style>
+<a href="/" class="btn btn-success">Go Back To Home Page</a>
+
+<div class="review-page">
+
+    <h1 class="review-title">
+        Customer Reviews
+    </h1>
+
+    <div class="review-grid">
+
+        {% for review in reviews %}
+
+        <div class="review-card">
+
+            <div class="review-user">
+                {{ review.user.username }}
+            </div>
+
+            <div class="review-message">
+                {{ review.message }}
+            </div>
+
+            <div class="review-date">
+                {{ review.created_at }}
+            </div>
+
+        </div>
+
+        {% endfor %}
+
+    </div>
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,67 @@
+{% extends 'components/base.html' %}
+{% load static %}
+{% block title %}Axion | Car Update {% endblock %}
+
+{% block body %}
+
+
+
+
+
+<h1 class="text-center">Car Update</h1>
+<a href="/car/list/" class="btn btn-success">Go Back To Car list Page</a>
+
+<form class="mt-5" method="POST" action="/car/update/{{car.id}}/" enctype="multipart/form-data">
+    {% csrf_token %}
+
+    <div class="mb-3">
+        <label class="form-label">Name</label>
+        <input type="text" name="car_name" value="{{ car.car_name }}" class="form-control">
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Price Per Day</label>
+        <input type="number" name="price_per_day" value="{{ car.price_per_day }}" class="form-control">
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Seats</label>
+        <input type="number" name="seats" value="{{ car.seats }}" class="form-control">
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Transmission</label>
+        <input type="text" name="transmission" value="{{ car.transmission }}" class="form-control">
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Fuel Type</label>
+        <input type="text" name="fuel_type" value="{{ car.fuel_type }}" class="form-control">
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Max Speed</label>
+        <input type="number" name="max_speed" value="{{ car.max_speed }}" class="form-control">
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Brand</label>
+        <select class="form-control" name="car_brand">
+            {% for brand in brands %}
+            <option {% if brand.id == car.car_brand.id %}selected{% endif %} value="{{ brand.id }}">
+                {{ brand.name }}
+            </option>
+            {% endfor %}
+        </select>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Image</label>
+        <input type="file" name="image" class="form-control">
+    </div>
+
+    <button type="submit" class="btn btn-primary">Update</button>
+</form>
+
+
+{% endblock %}

@@ -1,0 +1,52 @@
+{% extends 'components/base.html' %}
+{% load static %}
+{% block title %}Axion | Car Create  {% endblock %}
+
+{% block body %}
+
+
+
+<h1 class="text-center">Car Create</h1>
+<a href="/car/list/" class="btn btn-success">Go Back To Car list Page</a>
+<form class="mt-5" method="POST" action="/car/create/" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div class="mb-3">
+        <label for="carname" class="form-label">Name</label>
+        <input type="text" name="car_name" class="form-control" id="carname" placeholder="enter your car name">
+    </div>
+    <div class="mb-3">
+        <label for="price_per_day" class="form-label">Price_Per_Day</label>
+        <input type="number" name="price_per_day" class="form-control" id="price_per_day" rows="3"></input>
+    </div>
+    <div class="mb-3">
+        <label for="seats" class="form-label">seats</label>
+        <input type="number" name="seats" class="form-control" id="seats" rows="3"></input>
+    </div>
+    <div class="mb-3">
+        <label for="transmission" class="form-label">Transmission</label>
+        <input type="text" name="transmission" class="form-control" id="transmission" rows="3"></input>
+    </div>
+    <div class="mb-3">
+        <label for="fuel_type" class="form-label">Fuel_type</label>
+        <input type="text" name="fuel_type" class="form-control" id="fuel_type" rows="3"></input>
+    </div>
+    <div class="mb-3">
+        <label for="max_speed" class="form-label">max_speed</label>
+        <input type="number" name="max_speed" class="form-control" id="max_speed" rows="3"></input>
+    </div>
+    <div class="mb-3">
+        <label for="brand" class="form-label">Brand</label>
+        <select class="form-control" name="car_brand" id="brand">
+            {% for brand in brands %}
+            <option value="{{ brand.id }}">{{ brand.name }}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <div class="mb-3">
+        <label for="image" class="form-label">Image</label>
+        <input type="file" name="image" class="form-control" id="image">
+    </div>
+    <button type="submit" class="btn">Create</button>
+</form>
+
+{% endblock %}

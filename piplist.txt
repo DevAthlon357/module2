@@ -1,0 +1,18 @@
+pip list
+
+pip3 install pillow
+chmod 777 folder_name(media)
+pip3 install django-jazzmin
+pip3 install openai
+============================================================///=============================================================
+
+
+Error 
+IntegrityError (NOT NULL constraint failed: car_brandmodel.name)/ solution(name="")
+forbidden /  solution (csrf_token)
+api connection error (check api key is load or not )
+RateLimitError (in ai assistant) / to purchase api key token 
+
+
+
+      

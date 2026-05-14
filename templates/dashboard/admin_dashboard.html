@@ -1,0 +1,181 @@
+{% extends 'components/base.html' %}
+{% load static %}
+{% block title %} Admin Dashboard {% endblock %}
+
+{% block body %}
+<style>
+    
+    h2 {
+        margin-bottom: 20px;
+    }
+
+    .top-bar {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 20px;
+    }
+
+    .logout {
+        background: purple;
+        color: white;
+        padding: 8px 12px;
+        border-radius: 6px;
+        text-decoration: none;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        background: white;
+        border-radius: 10px;
+        overflow: hidden;
+    }
+
+    th,
+    td {
+        padding: 12px;
+        text-align: left;
+    }
+
+    th {
+        background: #eee;
+    }
+
+    tr {
+        border-bottom: 1px solid #ddd;
+    }
+
+    .btn {
+        padding: 6px 10px;
+        border-radius: 6px;
+        text-decoration: none;
+        color: white;
+        font-size: 12px;
+    }
+
+    .confirm {
+        background: green;
+    }
+
+    .cancel {
+        background: red;
+    }
+
+    /* STATUS BADGES */
+    .badge {
+        padding: 4px 8px;
+        border-radius: 6px;
+        font-size: 12px;
+        font-weight: bold;
+    }
+
+    .pending {
+        background: #fff3cd;
+        color: #856404;
+    }
+
+    .confirmed {
+        background: #d4edda;
+        color: #155724;
+    }
+
+    .cancelled {
+        background: #f8d7da;
+        color: #721c24;
+    }
+
+    .paid {
+        background: #d1ecf1;
+        color: #0c5460;
+    }
+
+    .nopay {
+        background: #f8d7da;
+        color: #721c24;
+    }
+
+    .disabled {
+        opacity: 0.5;
+        pointer-events: none;
+    }
+</style>
+   
+
+
+
+
+    <div class="top-bar">
+        <h2>Admin Dashboard</h2>
+
+        
+    </div>
+
+    <table>
+        <tr>
+            <th>User</th>
+            <th>Car Model</th>
+            <th>Location</th>
+            <th>Pickup Date</th>
+            <th>Return Date</th>
+            <th>Status</th>
+            <th>Payment</th>
+            <th>Payment SS</th>
+            <th>Action</th>
+        </tr>
+
+        {% for b in bookings %}
+        <tr>
+            <td>{{ b.user.username }}</td>
+            <td>{{ b.car.car_name }}</td>
+            <td>{{ b.location.name }}</td>
+            <td>{{ b.pickup_datetime }}</td>
+            <td>{{ b.return_datetime }}</td>
+
+            <!-- BOOKING STATUS -->
+            <td>
+                {% if b.status == "pending" %}
+                <span class="badge pending">Pending</span>
+                {% elif b.status == "confirmed" %}
+                <span class="badge confirmed">Confirmed</span>
+                {% elif b.status == "cancelled" %}
+                <span class="badge cancelled">Cancelled</span>
+                {% endif %}
+            </td>
+
+            <!-- PAYMENT STATUS -->
+            <td>
+                {% if b.paymentmodel %}
+                {% if b.paymentmodel.status == "paid" %}
+                <span class="badge paid">Paid</span>
+                {% else %}
+                <span class="badge pending">Pending</span>
+                {% endif %}
+                {% else %}
+                <span class="badge nopay">No Payment</span>
+                {% endif %}
+            </td>
+            <td>
+                {% if b.paymentmodel.screenshot %}
+                <a href="{{ b.paymentmodel.screenshot.url }}" class="btn" style="background:#007bff;">
+                    View SS
+                </a>
+                {% else %}
+                No Screenshot
+                {% endif %}
+            </td>
+            <!-- ACTION -->
+            <td>
+                {% if b.status == "pending" and b.paymentmodel and b.paymentmodel.status == "paid" %}
+                <a href="/confirm/{{ b.id }}/" class="btn confirm">Confirm</a>
+                <a href="/cancel/{{ b.id }}/" class="btn cancel">Cancel</a>
+                {% else %}
+                <span class="disabled">No Action</span>
+                {% endif %}
+            </td>
+            
+        </tr>
+        {% endfor %}
+    </table>
+
+
+{% endblock %}
